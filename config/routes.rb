@@ -14,7 +14,8 @@ Rails.application.routes.draw do
 
   # Admin
   namespace :admin do
-    resources :reservations, only: [ :index ]
+    get "dashboard", to: "dashboard#index"
+    resources :reservations, only: [ :index, :destroy ]
   end
 
   # Root

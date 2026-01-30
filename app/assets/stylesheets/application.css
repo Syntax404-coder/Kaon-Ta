@@ -1,10 +1,41 @@
-/* Global "Netscape Era" Styles */
+/* Global Styles */
 body {
-  background-color: #C0C0C0; /* Windows 95 Grey */
+  background-color: #FFFFFF;
   font-family: "Times New Roman", Times, serif;
   color: #000000;
   margin: 0;
   padding: 0;
+}
+
+/* Main Content Container */
+.container {
+  background-color: #C0C0C0;
+  border: 2px solid #000000;
+  padding: 15px;
+  margin: 10px;
+}
+
+/* Navigation Bar */
+.navbar {
+  background-color: #C0C0C0;
+  border: 2px solid #000000;
+  padding: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.navbar strong {
+  margin-right: 10px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 /* Links */
@@ -17,21 +48,30 @@ a:visited {
   color: #800080;
 }
 
-/* Buttons */
-button, .btn, input[type="submit"], input[type="button"], .book-btn {
+/* Global Button Styles */
+button,
+.btn,
+input[type="submit"],
+input[type="button"],
+a.button {
   background-color: #FF0000;
   color: #FFFFFF;
-  border: 3px outset #FFFFFF;
+  border: 3px outset #FFCCCC;
   font-family: "Times New Roman", Times, serif;
   font-weight: bold;
   padding: 5px 10px;
   cursor: pointer;
   text-decoration: none;
   font-size: 14px;
+  display: inline-block;
 }
 
-button:active, .btn:active, input[type="submit"]:active, input[type="button"]:active, .book-btn:active {
-  border: 3px inset #FFFFFF;
+button:active,
+.btn:active,
+input[type="submit"]:active,
+input[type="button"]:active,
+a.button:active {
+  border: 3px inset #FFCCCC;
 }
 
 /* Tables */
@@ -43,7 +83,7 @@ table {
 }
 
 th {
-  background-color: #000080; /* Navy */
+  background-color: #000080;
   color: #FFFFFF;
   font-weight: bold;
   padding: 5px;
@@ -58,22 +98,31 @@ td {
   color: #000000;
 }
 
-/* Forms */
-input[type="text"], input[type="password"], input[type="email"], input[type="date"], input[type="number"] {
+/* Form Inputs */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="date"],
+input[type="number"] {
   border: 2px inset #FFFFFF;
   background-color: #FFFFFF;
   padding: 2px;
 }
 
 /* Headings */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
 /* Flash Messages */
 .flash-notice {
-  background-color: #008000; /* Green */
+  background-color: #008000;
   color: #FFFFFF;
   border: 3px inset #FFFFFF;
   padding: 10px;
@@ -82,7 +131,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .flash-alert {
-  background-color: #FF0000; /* Red */
+  background-color: #FF0000;
   color: #FFFFFF;
   border: 3px inset #FFFFFF;
   padding: 10px;
@@ -90,7 +139,15 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: bold;
 }
 
-/* Layout Utilities */
-div {
-  box-sizing: border-box;
+/* Utility Classes */
+.text-center {
+  text-align: center;
+}
+
+.text-danger {
+  color: #CC0000;
+}
+
+.text-success {
+  color: #006600;
 }

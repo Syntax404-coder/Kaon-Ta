@@ -23,6 +23,11 @@ class TablesController < ApplicationController
     # Filter tables for the selected date
     @tables = Table.where(start_time: start_of_day..end_of_day).order(:start_time)
 
+    # Hide past slots if viewing today
+    if @selected_date == today_in_manila
+      @tables = @tables.where("start_time > ?", Time.current)
+    end
+
     # Store today's date for the view (for default value)
     @today_date = today_in_manila
   end
