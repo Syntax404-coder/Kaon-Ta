@@ -22,7 +22,7 @@ end
 if Table.count == 0
   # Create time slots for the next 7 days
   (1..7).each do |day|
-    [12, 18, 20].each do |hour|
+    [ 12, 18, 20 ].each do |hour|
       Table.create!(
         start_time: day.days.from_now.change(hour: hour, min: 0),
         capacity: 10,

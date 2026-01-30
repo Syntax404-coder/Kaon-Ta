@@ -8,13 +8,13 @@ Rails.application.routes.draw do
   post "signup", to: "users#create"
 
   # Customer-facing
-  resources :tables, only: [:index]
-  resources :reservations, only: [:create, :index]
+  resources :tables, only: [ :index ]
+  resources :reservations, only: [ :create, :index ]
   get "my_reservations", to: "reservations#index"
 
   # Admin
   namespace :admin do
-    resources :reservations, only: [:index]
+    resources :reservations, only: [ :index ]
   end
 
   # Root
