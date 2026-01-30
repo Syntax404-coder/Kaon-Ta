@@ -1,6 +1,6 @@
 # Seed script for Kaon Ta! reservation system
-# Schedule: Breakfast (07-09), Lunch (11-13), Dinner (18-20)
 
+# Create default users if none exist
 if User.count == 0
   User.create!(
     name: "Admin User",
@@ -19,19 +19,21 @@ if User.count == 0
   puts "Seeded: Default users created"
 end
 
-# Clear existing slots before re-seeding
+# Wipe all existing slots
 Table.destroy_all
+
+# Operating Hours (Manila Time)
+# Breakfast: 7, 8, 9, 10
+# Lunch: 11, 12, 13, 14 (2 PM)
+# Dinner: 18 (6 PM), 19, 20, 21 (9 PM)
+OPEN_HOURS = [7, 8, 9, 10, 11, 12, 13, 14, 18, 19, 20, 21]
 
 manila_zone = ActiveSupport::TimeZone["Asia/Manila"]
 
-# Fixed hour blocks (24-hour format)
-allowed_hours = [7, 8, 9, 11, 12, 13, 18, 19, 20]
-
-# Generate slots for the next 7 days
-(0..6).each do |day_offset|
+(0..7).each do |day_offset|
   current_date = manila_zone.now.to_date + day_offset.days
 
-  allowed_hours.each do |hour|
+  OPEN_HOURS.each do |hour|
     start_time = manila_zone.local(current_date.year, current_date.month, current_date.day, hour, 0, 0)
 
     Table.create!(
@@ -42,4 +44,4 @@ allowed_hours = [7, 8, 9, 11, 12, 13, 18, 19, 20]
   end
 end
 
-puts "Seeded: #{Table.count} time slots generated"
+puts "Seeded: #{Table.count} time slots created"

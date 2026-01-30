@@ -1,9 +1,5 @@
 <h1>Login</h1>
 
-<% if flash[:alert] %>
-  <p style="color: red;"><%= flash[:alert] %></p>
-<% end %>
-
 <%= form_with url: login_path, method: :post do |f| %>
   <p>
     <label for="email">Email:</label><br>
@@ -13,9 +9,8 @@
     <label for="password">Password:</label><br>
     <input type="password" name="password" id="password" required>
   </p>
-  <p>
-    <input type="submit" value="Login">
-  </p>
+  <div class="button-group">
+    <input type="submit" value="Login" class="btn-danger">
+    <%= link_to "Sign Up", signup_path, class: "btn btn-danger" %>
+  </div>
 <% end %>
-
-<p><a href="<%= signup_path %>">Sign up</a></p>
