@@ -1,6 +1,6 @@
 <h1>Admin: All Reservations</h1>
 
-<table border="1" cellpadding="8" cellspacing="0">
+<table>
   <thead>
     <tr>
       <th>ID</th>
@@ -9,6 +9,7 @@
       <th>Time Slot</th>
       <th>Guests</th>
       <th>Booked On</th>
+      <th>Action</th>
     </tr>
   </thead>
   <tbody>
@@ -17,9 +18,12 @@
         <td><%= reservation.id %></td>
         <td><%= reservation.user.name %></td>
         <td><%= reservation.user.email %></td>
-        <td><%= reservation.table.start_time.strftime("%B %d, %Y at %I:%M %p") %></td>
+        <td><%= reservation.table.start_time.in_time_zone("Asia/Manila").strftime("%B %d, %Y at %I:%M %p") %></td>
         <td><%= reservation.guest_count %></td>
-        <td><%= reservation.created_at.strftime("%B %d, %Y") %></td>
+        <td><%= reservation.created_at.in_time_zone("Asia/Manila").strftime("%B %d, %Y") %></td>
+        <td>
+          <%= button_to "Cancel", admin_reservation_path(reservation), method: :delete, class: "btn btn-danger", data: { confirm: "Cancel this reservation and notify user?" } %>
+        </td>
       </tr>
     <% end %>
   </tbody>
