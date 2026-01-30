@@ -8,11 +8,7 @@ class TablesController < ApplicationController
     manila_zone = ActiveSupport::TimeZone[MANILA_TIMEZONE]
     today_in_manila = Time.current.in_time_zone(manila_zone).to_date
 
-    @selected_date = if params[:date].present?
-                       Date.parse(params[:date])
-                     else
-                       today_in_manila
-                     end
+    @selected_date = params[:date].present? ? Date.parse(params[:date]) : today_in_manila
 
     # Calculate the start and end of the selected day in Manila timezone
     start_of_day = manila_zone.local(@selected_date.year, @selected_date.month, @selected_date.day).beginning_of_day
