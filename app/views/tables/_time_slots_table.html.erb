@@ -1,24 +1,24 @@
-<table style="width: 100%; max-width: 600px;">
+<table style="width: 100%; max-width: 450px;">
   <thead>
     <tr>
-      <th style="padding: 12px;">Time</th>
-      <th style="padding: 12px;">Available Seats</th>
-      <th style="padding: 12px;">Action</th>
+      <th style="padding: 8px;">Time</th>
+      <th style="padding: 8px;">Available Seats</th>
+      <th style="padding: 8px;">Action</th>
     </tr>
   </thead>
   <tbody>
     <% tables.each do |table| %>
       <% is_full = table.remaining_seats == 0 %>
       <tr style="<%= is_full ? 'background-color: #FFCCCC;' : 'background-color: #FFFFFF;' %>">
-        <td style="padding: 12px; text-align: center; font-weight: bold;">
+        <td style="padding: 8px; text-align: center; font-weight: bold;">
           <%= table.start_time.in_time_zone("Asia/Manila").strftime("%H:%M") %>
         </td>
-        <td style="padding: 12px; text-align: center;">
+        <td style="padding: 8px; text-align: center;">
           <span style="<%= is_full ? 'color: #CC0000;' : 'color: #006600;' %> font-weight: bold;">
             <%= table.remaining_seats %>
           </span>
         </td>
-        <td style="padding: 12px; text-align: center;">
+        <td style="padding: 8px; text-align: center;">
           <% if table.remaining_seats > 0 %>
             <%= link_to "Book Now", new_reservation_path(table_id: table.id), class: "btn btn-primary" %>
           <% else %>
