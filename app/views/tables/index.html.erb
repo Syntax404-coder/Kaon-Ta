@@ -34,7 +34,7 @@
     <thead style="background-color: #333; color: white;">
       <tr>
         <th style="padding: 12px;">Time</th>
-        <th style="padding: 12px;">Availability</th>
+        <th style="padding: 12px;">Available Seats</th>
         <th style="padding: 12px;">Action</th>
       </tr>
     </thead>
@@ -46,23 +46,15 @@
             <%= table.start_time.in_time_zone("Asia/Manila").strftime("%I:%M %p") %>
           </td>
           <td style="padding: 12px; text-align: center;">
-            <% if is_full %>
-              <span style="color: #CC0000; font-weight: bold;">Full</span>
-            <% else %>
-              <span style="color: #006600;"><%= table.remaining_seats %> of <%= table.capacity %> seats available</span>
-            <% end %>
+            <span style="<%= is_full ? 'color: #CC0000;' : 'color: #006600;' %> font-weight: bold;">
+              <%= table.remaining_seats %>
+            </span>
           </td>
           <td style="padding: 12px; text-align: center;">
             <% if table.remaining_seats > 0 %>
-              <%= form_with url: reservations_path, method: :post, local: true do %>
-                <input type="hidden" name="table_id" value="<%= table.id %>">
-                <div style="display: flex; align-items: center; justify-content: center; gap: 5px;">
-                  <input type="number" name="guest_count" value="1" min="1" max="<%= table.remaining_seats %>" style="width: 50px; padding: 4px;">
-                  <input type="submit" value="Book" style="padding: 4px 12px; background-color: #2196F3; color: white; border: none; border-radius: 4px; cursor: pointer;">
-                </div>
-              <% end %>
+              <%= link_to "Book Now", new_reservation_path(table_id: table.id), class: "book-btn", style: "padding: 6px 12px; background-color: #2196F3; color: white; text-decoration: none; border-radius: 4px; display: inline-block;" %>
             <% else %>
-              <span style="color: #999;">—</span>
+              <span style="color: #999;">Full</span>
             <% end %>
           </td>
         </tr>

@@ -7,6 +7,7 @@ class Reservation < ApplicationRecord
   validate :enough_seats_available
 
   after_create :decrement_remaining_seats
+  after_destroy :increment_remaining_seats
 
   private
 
@@ -24,5 +25,9 @@ class Reservation < ApplicationRecord
 
   def decrement_remaining_seats
     table.update!(remaining_seats: table.remaining_seats - guest_count)
+  end
+
+  def increment_remaining_seats
+    table.update!(remaining_seats: table.remaining_seats + guest_count)
   end
 end

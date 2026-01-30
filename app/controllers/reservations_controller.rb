@@ -1,6 +1,11 @@
 class ReservationsController < ApplicationController
   before_action :require_login
 
+  def new
+    @table = Table.find(params[:table_id])
+    @reservation = current_user.reservations.build(table: @table, guest_count: 1)
+  end
+
   def create
     @table = Table.find(params[:table_id])
     @reservation = current_user.reservations.build(
@@ -11,11 +16,17 @@ class ReservationsController < ApplicationController
     if @reservation.save
       redirect_to tables_path, notice: "Reservation confirmed!"
     else
-      redirect_to tables_path, alert: @reservation.errors.full_messages.join(", ")
+      render :new, status: :unprocessable_entity
     end
   end
 
   def index
     @reservations = current_user.reservations.includes(:table).order(created_at: :desc)
+  end
+
+  def destroy
+    @reservation = current_user.reservations.find(params[:id])
+    @reservation.destroy
+    redirect_to my_reservations_path, notice: "Reservation cancelled successfully."
   end
 end

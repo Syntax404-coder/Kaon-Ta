@@ -1,0 +1,32 @@
+<h1>Confirm Reservation</h1>
+
+<% if @reservation.errors.any? %>
+  <div style="color: red; margin-bottom: 20px;">
+    <h3><%= pluralize(@reservation.errors.count, "error") %> prohibited this reservation:</h3>
+    <ul>
+      <% @reservation.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<div style="background-color: #f9f9f9; padding: 20px; border-radius: 8px; max-width: 500px;">
+  <p><strong>Date:</strong> <%= @table.start_time.in_time_zone("Asia/Manila").strftime("%B %d, %Y") %></p>
+  <p><strong>Time:</strong> <%= @table.start_time.in_time_zone("Asia/Manila").strftime("%I:%M %p") %></p>
+  <p><strong>Available Seats:</strong> <%= @table.remaining_seats %></p>
+
+  <%= form_with url: reservations_path, method: :post, local: true do |form| %>
+    <%= hidden_field_tag :table_id, @table.id %>
+    
+    <div style="margin-bottom: 15px;">
+      <%= label_tag :guest_count, "Number of Guests:" %>
+      <%= number_field_tag :guest_count, @reservation.guest_count, min: 1, max: @table.remaining_seats, style: "width: 60px; padding: 5px;" %>
+    </div>
+    
+    <div>
+      <%= form.submit "Confirm Booking", style: "padding: 10px 20px; background-color: #2196F3; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;" %>
+      <%= link_to "Cancel", tables_path, style: "margin-left: 10px; color: #666; text-decoration: none;" %>
+    </div>
+  <% end %>
+</div>

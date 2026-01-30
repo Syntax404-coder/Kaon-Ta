@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   # Customer-facing
   resources :tables, only: [ :index ]
-  resources :reservations, only: [ :create, :index ]
+  resources :reservations, only: [ :new, :create, :index, :destroy ]
   get "my_reservations", to: "reservations#index"
 
   # Admin
