@@ -19,7 +19,25 @@ test:
   database: storage/test.sqlite3
 
 production:
-  <<: *default
-  adapter: postgresql
-  encoding: unicode
-  url: <%= ENV["DATABASE_URL"] %>
+  primary: &primary_production
+    <<: *default
+    adapter: postgresql
+    encoding: unicode
+    database: kaon_ta_production
+    url: <%= ENV["DATABASE_URL"] %>
+    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+  cache:
+    <<: *primary_production
+    migrations_paths: db/cache_migrate
+    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+  queue:
+    <<: *primary_production
+    migrations_paths: db/queue_migrate
+    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+  cable:
+    <<: *primary_production
+    migrations_paths: db/cable_migrate
+    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
