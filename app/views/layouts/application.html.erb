@@ -27,16 +27,16 @@
           <% if current_user.admin? %>
             <a href="<%= admin_dashboard_path %>" class="btn btn-primary">Dashboard</a>
             <span>Logged in as <%= current_user.email %></span>
-            <%= link_to "Logout", logout_path, data: { turbo_method: :delete }, class: "button" %>
+            <%= link_to "Logout", logout_path, data: { turbo_method: :delete }, class: "btn btn-danger" %>
           <% else %>
             <a href="<%= tables_path %>" class="btn btn-primary">Time Slots</a>
             <a href="<%= my_reservations_path %>" class="btn btn-primary">My Reservations</a>
             <span>Logged in as <%= current_user.email %></span>
-            <%= link_to "Logout", logout_path, data: { turbo_method: :delete }, class: "button" %>
+            <%= link_to "Logout", logout_path, data: { turbo_method: :delete }, class: "btn btn-danger" %>
           <% end %>
         <% else %>
-          <%= link_to "Login", login_path, class: "button" %>
-          <%= link_to "Sign Up", signup_path, class: "button" %>
+          <%= link_to "Login", login_path, class: "btn btn-danger" %>
+          <%= link_to "Sign Up", signup_path, class: "btn btn-primary" %>
         <% end %>
       </div>
     </div>
