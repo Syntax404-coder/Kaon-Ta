@@ -3,7 +3,8 @@ module Admin
     before_action :require_admin
 
     def index
-      @selected_date = params[:date] ? Date.parse(params[:date]) : Date.today
+      manila_now = Time.now.in_time_zone("Asia/Manila")
+      @selected_date = params[:date] ? Date.parse(params[:date]) : manila_now.to_date
 
       @reservations = Reservation.joins(:table, :user)
                                  .includes(:table, :user)
