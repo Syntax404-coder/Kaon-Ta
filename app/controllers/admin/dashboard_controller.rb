@@ -24,7 +24,8 @@ module Admin
       month_reservations = Reservation.joins(:table)
                                       .where(tables: { start_time: start_of_month.beginning_of_day..end_of_month.end_of_day })
       
-      @daily_counts = month_reservations.to_a.group_by { |r| r.table.start_time.to_date }.transform_values(&:count)
+      # Sum guest_count instead of just counting reservations
+      @daily_counts = month_reservations.to_a.group_by { |r| r.table.start_time.to_date }.transform_values { |reservations| reservations.sum(&:guest_count) }
     end
 
     def toggle_slot

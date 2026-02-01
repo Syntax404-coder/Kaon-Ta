@@ -37,15 +37,15 @@
   <strong>Legend:</strong>
   <div style="display: flex; align-items: center; gap: 5px;">
     <div style="width: 20px; height: 20px; background-color: #d4edda; border: 1px solid #c3e6cb;"></div>
-    <span>Low (< 5)</span>
+    <span>Low (< 4)</span>
   </div>
   <div style="display: flex; align-items: center; gap: 5px;">
     <div style="width: 20px; height: 20px; background-color: #fff3cd; border: 1px solid #ffeeba;"></div>
-    <span>Moderate (5-15)</span>
+    <span>Moderate (4-8)</span>
   </div>
   <div style="display: flex; align-items: center; gap: 5px;">
     <div style="width: 20px; height: 20px; background-color: #f8d7da; border: 1px solid #f5c6cb;"></div>
-    <span>High (> 15)</span>
+    <span>High (> 8)</span>
   </div>
 </div>
 
@@ -73,9 +73,9 @@
           <% week.each do |day| %>
             <% 
               count = @daily_counts[day] || 0
-              bg_color = if count > 15
+              bg_color = if count > 8
                            "#f8d7da" # Red
-                         elsif count >= 5
+                         elsif count >= 4
                            "#fff3cd" # Yellow
                          else
                            "#d4edda" # Green
