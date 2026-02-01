@@ -51,7 +51,9 @@
       <tr>
         <td><%= table.start_time.strftime("%H:%M") %></td>
         <td>
-          <% if table.is_closed %>
+          <% if table.start_time < Time.current %>
+             <span style="color: gray; font-weight: bold;">PAST</span>
+          <% elsif table.is_closed %>
              <span style="color: red; font-weight: bold;">CLOSED</span>
           <% else %>
              <span style="color: green; font-weight: bold;">OPEN</span>
@@ -59,7 +61,9 @@
         </td>
         <td><%= table.remaining_seats %> / <%= table.capacity %></td>
         <td>
-           <% if table.is_closed %>
+           <% if table.start_time < Time.current %>
+              <button class="btn btn-secondary" disabled style="cursor: not-allowed; opacity: 0.6;">Expired</button>
+           <% elsif table.is_closed %>
               <%= button_to "Open Slot", admin_toggle_table_path(table), method: :patch, class: "btn btn-success" %>
            <% else %>
               <%= button_to "Close Slot", admin_toggle_table_path(table), method: :patch, class: "btn btn-danger", data: { turbo_confirm: "Are you sure you want to close this slot?" } %>
