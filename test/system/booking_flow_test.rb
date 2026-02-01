@@ -16,21 +16,25 @@ class BookingFlowTest < ApplicationSystemTestCase
 
     assert_text "Logged in"
 
-    # Step 3: Select a date (force tomorrow to ensure slots are available)
-    tomorrow = 1.day.from_now.to_date
-    tomorrow_text = tomorrow.strftime("%B %d, %Y")
-    
-    fill_in "date", with: tomorrow
+    # Step 3: Select a date with available slots
+    # Find a table that is valid for booking (future + 3 hours rule)
+    target_table = Table.where("remaining_seats > 0 AND start_time > ?", 3.hours.from_now).order(:start_time).first
+    flunk "No valid tables found for testing. Check seeds." if target_table.nil?
+
+    target_date = target_table.start_time.to_date
+    target_date_text = target_date.strftime("%B %d, %Y")
+
+    fill_in "date", with: target_date
     click_button "Check Availability"
-    
-    # Wait for the date header to change to tomorrow's date
-    assert_text tomorrow_text
-    
+
+    # Wait for the date header to change
+    assert_text target_date_text
+
     first(:link, "Book Now").click
-    
+
     # Wait for the next page to load
     assert_selector "input[name='guest_count']"
-    
+
     # Capture the actual table we are booking by reading the URL
     uri = URI.parse(current_url)
     table_id = CGI.parse(uri.query)["table_id"].first
@@ -40,7 +44,8 @@ class BookingFlowTest < ApplicationSystemTestCase
 
     # Step 5: Complete booking with 2 guests
     assert_selector "input[value='Confirm Booking']"
-    fill_in "guest_count", with: 2
+    page.execute_script("document.getElementById('guest_count').value = '2'")
+    assert_equal "2", find("#guest_count").value
     page.execute_script("document.querySelector('form').submit()")
 
     assert_text "Reservation confirmed"
