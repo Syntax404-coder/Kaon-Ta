@@ -26,7 +26,11 @@
 
 <br><hr><br>
 
-<h2>Reservation Overview (<%= @selected_date.strftime("%B %Y") %>)</h2>
+<h2>
+  <%= link_to "←", admin_dashboard_path(date: @selected_date.prev_month), class: "btn btn-sm btn-outline-secondary", style: "text-decoration: none;" %>
+  <span style="margin: 0 15px;">Reservation Overview (<%= @selected_date.strftime("%B %Y") %>)</span>
+  <%= link_to "→", admin_dashboard_path(date: @selected_date.next_month), class: "btn btn-sm btn-outline-secondary", style: "text-decoration: none;" %>
+</h2>
 
 <!-- Legend -->
 <div style="display: flex; gap: 20px; margin-bottom: 20px; align-items: center;">
@@ -55,11 +59,11 @@
     calendar_end = end_date.end_of_week(:sunday)
   %>
   
-  <table style="width: 100%; border-collapse: collapse; table-layout: fixed;">
+  <table style="width: 100%; border-collapse: collapse; table-layout: fixed; box-sizing: border-box;">
     <thead>
       <tr>
         <% %w[Sun Mon Tue Wed Thu Fri Sat].each do |day| %>
-          <th style="padding: 10px; border: 1px solid #ddd; background: #f8f9fa;"><%= day %></th>
+          <th style="padding: 10px; border: 1px solid #ddd; background: #f8f9fa; color: #333; text-align: center;"><%= day %></th>
         <% end %>
       </tr>
     </thead>
@@ -79,11 +83,12 @@
               
               # Dim days not in current month
               opacity = day.month == @selected_date.month ? "1.0" : "0.4"
-              border = day == @selected_date ? "3px solid #007bff" : "1px solid #ddd"
+              # Use outline for selection to avoid layout shift
+              border_style = day == @selected_date ? "outline: 3px solid #007bff; z-index: 10; position: relative;" : "border: 1px solid #ddd;"
             %>
-            <td style="height: 100px; padding: 0; border: <%= border %>; opacity: <%= opacity %>; vertical-align: top; background-color: <%= day.month == @selected_date.month ? bg_color : '#f8f9fa' %>;">
-              <a href="<%= admin_dashboard_path(date: day) %>" style="display: block; width: 100%; height: 100%; text-decoration: none; color: inherit; padding: 10px;">
-                <div style="text-align: right; font-weight: bold; margin-bottom: 10px;"><%= day.day %></div>
+            <td style="height: 100px; padding: 0; <%= border_style %> opacity: <%= opacity %>; vertical-align: top; background-color: <%= day.month == @selected_date.month ? bg_color : '#f8f9fa' %>;">
+              <a href="<%= admin_dashboard_path(date: day) %>" style="display: block; width: 100%; height: 100%; text-decoration: none; color: #333; padding: 10px; box-sizing: border-box;">
+                <div style="text-align: right; font-weight: bold; margin-bottom: 5px;"><%= day.day %></div>
                 <% if day.month == @selected_date.month && count > 0 %>
                   <div style="font-size: 0.85em; text-align: center;">
                     <strong><%= count %></strong><br>Reservations
