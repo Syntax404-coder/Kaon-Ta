@@ -36,7 +36,7 @@
             <td style="padding: 12px; text-align: center; font-weight: bold;"><%= table.start_time.strftime("%H:%M") %></td>
             <td style="padding: 12px; text-align: center; color: <%= table.remaining_seats == 0 ? '#CC0000' : '#006600' %>;"><%= table.remaining_seats %></td>
             <td style="padding: 12px; text-align: center;">
-              <% if table.is_closed %>
+              <% if table.is_closed || table.start_time < (Time.current + 2.hours) %>
                 <div class="flash-alert" style="display: inline-block; padding: 10px 20px; font-weight: bold; font-size: 14px;">UNAVAILABLE</div>
               <% elsif table.remaining_seats > 0 %>
                 <%= link_to "Book Now", new_reservation_path(table_id: table.id), class: "btn btn-primary" %>
@@ -60,7 +60,7 @@
             <td style="padding: 12px; text-align: center; font-weight: bold;"><%= table.start_time.strftime("%H:%M") %></td>
             <td style="padding: 12px; text-align: center; color: <%= table.remaining_seats == 0 ? '#CC0000' : '#006600' %>;"><%= table.remaining_seats %></td>
             <td style="padding: 12px; text-align: center;">
-              <% if table.is_closed %>
+              <% if table.is_closed || table.start_time < (Time.current + 2.hours) %>
                 <div class="flash-alert" style="display: inline-block; padding: 10px 20px; font-weight: bold; font-size: 14px;">UNAVAILABLE</div>
               <% elsif table.remaining_seats > 0 %>
                 <%= link_to "Book Now", new_reservation_path(table_id: table.id), class: "btn btn-primary" %>
@@ -84,7 +84,7 @@
             <td style="padding: 12px; text-align: center; font-weight: bold;"><%= table.start_time.strftime("%H:%M") %></td>
             <td style="padding: 12px; text-align: center; color: <%= table.remaining_seats == 0 ? '#CC0000' : '#006600' %>;"><%= table.remaining_seats %></td>
             <td style="padding: 12px; text-align: center;">
-              <% if table.is_closed %>
+              <% if table.is_closed || table.start_time < (Time.current + 2.hours) %>
                 <div class="flash-alert" style="display: inline-block; padding: 10px 20px; font-weight: bold; font-size: 14px;">UNAVAILABLE</div>
               <% elsif table.remaining_seats > 0 %>
                 <%= link_to "Book Now", new_reservation_path(table_id: table.id), class: "btn btn-primary" %>

@@ -49,7 +49,7 @@
   <tbody>
     <% @tables.each do |table| %>
       <tr>
-        <td><%= table.start_time.strftime("%H:%M") %></td>
+        <td><%= table.start_time.in_time_zone("Asia/Manila").strftime("%H:%M") %></td>
         <td>
           <% if table.start_time < Time.current %>
              <span style="color: gray; font-weight: bold;">PAST</span>
