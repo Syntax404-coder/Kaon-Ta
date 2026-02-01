@@ -20,14 +20,17 @@ class BookingFlowTest < ApplicationSystemTestCase
     click_button "Check Availability"
     assert_text "Available Time Slots"
 
-    # Step 4: Find a slot and book it
-    table = Table.where("remaining_seats > 0 AND start_time > ?", 2.hours.from_now).first
-    skip "No available slots for testing" if table.nil?
-
+    first(:link, "Book Now").click
+    
+    # Wait for the next page to load
+    assert_selector "input[name='guest_count']"
+    
+    # Capture the actual table we are booking by reading the URL
+    uri = URI.parse(current_url)
+    table_id = CGI.parse(uri.query)["table_id"].first
+    table = Table.find(table_id)
     initial_seats = table.remaining_seats
 
-    # Click Book Now for the first available slot
-    click_link "Book Now", match: :first
 
     # Step 5: Complete booking with 2 guests
     fill_in "guest_count", with: "2"
@@ -48,7 +51,7 @@ class BookingFlowTest < ApplicationSystemTestCase
     seats_before_cancel = table.remaining_seats
     click_button "Cancel"
 
-    assert_text "cancelled"
+    assert_no_button "Cancel"
 
     # Verify seats restored
     table.reload

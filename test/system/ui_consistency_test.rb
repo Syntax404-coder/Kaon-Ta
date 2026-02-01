@@ -9,18 +9,21 @@ class UiConsistencyTest < ApplicationSystemTestCase
   end
 
   test "customer navigation shows correct links after login" do
-    # Create test customer
+    # Create test customer with unique email
+    email = "uitest_#{Time.now.to_i}@example.com"
     user = User.create!(
       name: "Test Customer",
-      email: "uitest@example.com",
+      email: email,
       password: "password123",
       role: :customer
     )
 
     visit login_path
-    fill_in "email", with: "uitest@example.com"
+    fill_in "email", with: email
     fill_in "password", with: "password123"
-    click_button "Login"
+
+    # Click the submit button explicitly
+    find("input[type='submit']").click
 
     # Wait for Turbo navigation to complete by checking we left the login page
     assert_no_selector "h1", text: "Login"
