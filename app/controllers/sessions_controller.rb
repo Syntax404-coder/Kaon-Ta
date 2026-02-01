@@ -7,7 +7,7 @@ class SessionsController < ApplicationController
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
       if user.admin?
-        redirect_to admin_reservations_path, notice: "Logged in as Admin"
+        redirect_to admin_dashboard_path, notice: "Logged in as Admin"
       else
         redirect_to root_path, notice: "Logged in successfully"
       end

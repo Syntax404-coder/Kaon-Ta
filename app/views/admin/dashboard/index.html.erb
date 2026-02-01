@@ -37,40 +37,45 @@
   </form>
 </div>
 
-<table border="1" style="width:100%; text-align: left; border-collapse: collapse;">
-  <thead>
-    <tr>
-      <th>Time</th>
-      <th>Status</th>
-      <th>Remaining Seats</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @tables.each do |table| %>
-      <tr>
-        <td><%= table.start_time.in_time_zone("Asia/Manila").strftime("%H:%M") %></td>
-        <td>
-          <% if table.start_time < Time.current %>
-             <span style="color: gray; font-weight: bold;">PAST</span>
-          <% elsif table.is_closed %>
-             <span style="color: red; font-weight: bold;">CLOSED</span>
-          <% else %>
-             <span style="color: green; font-weight: bold;">OPEN</span>
-          <% end %>
-        </td>
-        <td><%= table.remaining_seats %> / <%= table.capacity %></td>
-        <td>
-           <% if table.start_time < Time.current %>
-              <button class="btn btn-secondary" disabled style="cursor: not-allowed; opacity: 0.6;">Expired</button>
-           <% elsif table.is_closed %>
-              <%= button_to "Open Slot", admin_toggle_table_path(table), method: :patch, class: "btn btn-success" %>
-           <% else %>
-              <%= button_to "Close Slot", admin_toggle_table_path(table), method: :patch, class: "btn btn-danger", data: { turbo_confirm: "Are you sure you want to close this slot?" } %>
-           <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<% 
+  breakfast = @tables.select { |t| (7..10).include?(t.start_time.hour) }
+  lunch = @tables.select { |t| (11..14).include?(t.start_time.hour) }
+  dinner = @tables.select { |t| (18..21).include?(t.start_time.hour) }
+%>
+
+<% if breakfast.any? %>
+  <h3>Breakfast (07:00 - 10:00)</h3>
+  <table border="1" style="width:100%; text-align: left; border-collapse: collapse; margin-bottom: 20px;">
+    <thead><tr><th>Time</th><th>Status</th><th>Remaining Seats</th><th>Action</th></tr></thead>
+    <tbody>
+      <% breakfast.each do |table| %>
+        <%= render partial: "admin/dashboard/time_slot_row", locals: { table: table } %>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<% if lunch.any? %>
+  <h3>Lunch (11:00 - 14:00)</h3>
+  <table border="1" style="width:100%; text-align: left; border-collapse: collapse; margin-bottom: 20px;">
+    <thead><tr><th>Time</th><th>Status</th><th>Remaining Seats</th><th>Action</th></tr></thead>
+    <tbody>
+      <% lunch.each do |table| %>
+        <%= render partial: "admin/dashboard/time_slot_row", locals: { table: table } %>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<% if dinner.any? %>
+  <h3>Dinner (18:00 - 21:00)</h3>
+  <table border="1" style="width:100%; text-align: left; border-collapse: collapse; margin-bottom: 20px;">
+    <thead><tr><th>Time</th><th>Status</th><th>Remaining Seats</th><th>Action</th></tr></thead>
+    <tbody>
+      <% dinner.each do |table| %>
+        <%= render partial: "admin/dashboard/time_slot_row", locals: { table: table } %>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
 
