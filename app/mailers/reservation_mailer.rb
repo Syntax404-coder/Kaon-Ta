@@ -1,5 +1,5 @@
 class ReservationMailer < ApplicationMailer
-  default from: "notifications@kaonta.com"
+  default from: "domenicrobiataganahan@gmail.com"
 
   def cancellation_email
     @reservation = params[:reservation]
