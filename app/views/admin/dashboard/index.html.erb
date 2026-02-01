@@ -2,6 +2,8 @@
 
 <h2>All Reservations</h2>
 
+<%= turbo_stream_from :reservations %>
+
 <% if @reservations.any? %>
   <table>
     <thead>
@@ -14,21 +16,11 @@
         <th>Action</th>
       </tr>
     </thead>
-    <tbody>
-      <% @reservations.each do |reservation| %>
-        <tr>
-          <td><%= reservation.id %></td>
-          <td><%= reservation.user.name %></td>
-          <td><%= reservation.table.start_time.in_time_zone("Asia/Manila").strftime("%Y-%m-%d") %></td>
-          <td><%= reservation.table.start_time.in_time_zone("Asia/Manila").strftime("%H:%M") %></td>
-          <td class="text-center"><%= reservation.guest_count %></td>
-          <td>
-            <%= button_to "Cancel", admin_reservation_path(reservation), method: :delete, class: "btn btn-danger", data: { confirm: "Cancel this reservation and notify user?" } %>
-          </td>
-        </tr>
-      <% end %>
+    <tbody id="reservations">
+      <%= render partial: "admin/reservations/reservation", collection: @reservations %>
     </tbody>
   </table>
 <% else %>
   <p>No reservations in the system.</p>
 <% end %>
+

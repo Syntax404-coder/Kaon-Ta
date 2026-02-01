@@ -1,0 +1,10 @@
+<tr id="<%= dom_id(reservation) %>">
+  <td><%= reservation.id %></td>
+  <td><%= reservation.user.name %></td>
+  <td><%= reservation.table.start_time.in_time_zone("Asia/Manila").strftime("%Y-%m-%d") %></td>
+  <td><%= reservation.table.start_time.in_time_zone("Asia/Manila").strftime("%H:%M") %></td>
+  <td class="text-center"><%= reservation.guest_count %></td>
+  <td>
+    <%= button_to "Cancel", admin_reservation_path(reservation), method: :delete, class: "btn btn-danger", data: { confirm: "Cancel this reservation and notify user?" } %>
+  </td>
+</tr>

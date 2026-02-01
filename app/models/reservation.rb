@@ -1,4 +1,7 @@
 class Reservation < ApplicationRecord
+  # Broadcast Turbo Stream updates for real-time UI without page refresh
+  broadcasts_to ->(reservation) { :reservations }, inserts_by: :prepend
+
   belongs_to :user
   belongs_to :table
 

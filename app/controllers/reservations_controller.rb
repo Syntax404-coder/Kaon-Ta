@@ -27,6 +27,10 @@ class ReservationsController < ApplicationController
   def destroy
     @reservation = current_user.reservations.find(params[:id])
     @reservation.destroy
-    redirect_to my_reservations_path, notice: "Reservation cancelled successfully."
+
+    respond_to do |format|
+      format.turbo_stream { render turbo_stream: turbo_stream.remove(@reservation) }
+      format.html { redirect_to my_reservations_path, notice: "Reservation cancelled successfully." }
+    end
   end
 end

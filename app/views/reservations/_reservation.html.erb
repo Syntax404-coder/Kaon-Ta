@@ -1,0 +1,8 @@
+<tr id="<%= dom_id(reservation) %>">
+  <td style="padding: 12px;"><%= reservation.table.start_time.in_time_zone("Asia/Manila").strftime("%B %d, %Y at %I:%M %p") %></td>
+  <td style="padding: 12px; text-align: center;"><%= reservation.guest_count %></td>
+  <td style="padding: 12px;"><%= reservation.created_at.in_time_zone("Asia/Manila").strftime("%B %d, %Y") %></td>
+  <td style="padding: 12px; text-align: center;">
+    <%= button_to "Cancel", reservation_path(reservation), method: :delete, class: "btn btn-danger", data: { confirm: "Are you sure?" } %>
+  </td>
+</tr>

@@ -20,10 +20,15 @@ module Admin
 
       @reservation.destroy
 
-      if email_sent
-        redirect_to admin_dashboard_path, notice: "Reservation cancelled and notification sent to user."
-      else
-        redirect_to admin_dashboard_path, notice: "Reservation cancelled. (Email notification could not be sent)"
+      respond_to do |format|
+        format.turbo_stream { render turbo_stream: turbo_stream.remove(@reservation) }
+        format.html do
+          if email_sent
+            redirect_to admin_dashboard_path, notice: "Reservation cancelled and notification sent to user."
+          else
+            redirect_to admin_dashboard_path, notice: "Reservation cancelled. (Email notification could not be sent)"
+          end
+        end
       end
     end
   end
