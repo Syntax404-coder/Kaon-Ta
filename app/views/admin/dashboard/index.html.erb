@@ -26,7 +26,17 @@
 
 <br><hr><br>
 
-<h2>Manage Time Slots (<%= Date.today.strftime("%B %d, %Y") %>)</h2>
+<h2>Manage Time Slots (<%= @selected_date.strftime("%B %d, %Y") %>)</h2>
+
+<!-- Admin Date Picker -->
+<div style="margin-bottom: 20px; padding: 10px; background-color: #f8f9fa; border: 1px solid #ddd; display: inline-block;">
+  <form action="<%= admin_dashboard_path %>" method="get" style="display: flex; gap: 10px; align-items: center;">
+    <label for="date" style="font-weight: bold;">Select Date:</label>
+    <input type="date" name="date" value="<%= @selected_date %>" style="padding: 5px;">
+    <input type="submit" value="Go" class="btn btn-primary btn-sm">
+  </form>
+</div>
+
 <table border="1" style="width:100%; text-align: left; border-collapse: collapse;">
   <thead>
     <tr>
@@ -39,7 +49,7 @@
   <tbody>
     <% @tables.each do |table| %>
       <tr>
-        <td><%= table.start_time.strftime("%I:%M %p") %></td>
+        <td><%= table.start_time.strftime("%H:%M") %></td>
         <td>
           <% if table.is_closed %>
              <span style="color: red; font-weight: bold;">CLOSED</span>
