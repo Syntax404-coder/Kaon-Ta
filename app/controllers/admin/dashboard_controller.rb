@@ -5,6 +5,10 @@ module Admin
     def index
       manila_now = Time.now.in_time_zone("Asia/Manila")
       @selected_date = params[:date] ? Date.parse(params[:date]) : manila_now.to_date
+      
+      # Lazy Generation: Ensure slots exist for the selected date
+      TableGenerator.generate_for_date(@selected_date)
+
       @cutoff_time = Time.utc(manila_now.year, manila_now.month, manila_now.day, manila_now.hour, manila_now.min, manila_now.sec)
 
       @reservations = Reservation.joins(:table, :user)

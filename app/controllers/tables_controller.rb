@@ -19,6 +19,9 @@ class TablesController < ApplicationController
     @today_date = manila_now.to_date
     @selected_date = params[:date].present? ? Date.parse(params[:date]) : @today_date
 
+    # Lazy Generation: Ensure slots exist for the selected date
+    TableGenerator.generate_for_date(@selected_date)
+
     # Use timezone-aware range query
     day_start = @selected_date.beginning_of_day
     day_end = @selected_date.end_of_day
